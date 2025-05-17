@@ -2243,16 +2243,18 @@ do
 		local cfg = {
 			read = function(category)
 				local rf = getfenv().readfile
-				local s, r = pcall(rf, "CET\\" .. category .. ".cet")
+				local s, r = pcall(rf, "CET//" .. category .. ".cet")
 
 				return s and r:gsub("\n", ""):gsub("\r", ""):gsub("\t", "") or "0"
 			end,
 			write = function(category, value)
-				pcall(getfenv().writefile, "CET\\" .. category .. ".cet", value)
+				pcall(getfenv().writefile, "CET//" .. category .. ".cet", value)
 			end
 		}
 
 		pcall(getfenv().createfolder or getfenv().makefolder, "CET")
+
+  cfg.write("eb", "1")
 
 		local function checkDecodedSyntax(decoded)
 			return typeof(decoded) == "table" and #decoded >= 0 or #decoded == 0 and game:GetService("HttpService"):JSONEncode(decoded) == "[]"
