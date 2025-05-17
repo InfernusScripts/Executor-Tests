@@ -2254,7 +2254,7 @@ do
 
 		pcall(getfenv().createfolder or getfenv().makefolder, "CET")
 
-  cfg.write("eb", "1")
+  cfg.write("ub", "1")
 
 		local function checkDecodedSyntax(decoded)
 			return typeof(decoded) == "table" and #decoded >= 0 or #decoded == 0 and game:GetService("HttpService"):JSONEncode(decoded) == "[]"
@@ -2269,6 +2269,7 @@ do
 		end
 
 		content = cfg.read("cc")
+   content = content == "" and "0" or content
 		if content ~= "0" then
 			game:GetService("StarterGui"):SetCore("SendNotification", {Title = "CET", content .. " last time caused your Roblox to crash"})
 			game:GetService("StarterGui"):SetCore("SendNotification", {Title = "CET", "That function won't be tested in that run"})
@@ -2276,6 +2277,8 @@ do
 			table.insert(ignoredFuncs, content)
 
 			cfg.write("dtf", game:GetService("HttpService"):JSONEncode(ignoredFuncs))
+
+    task.wait(5)
 		end
 
 		cfg.write("cc", "")
@@ -2307,8 +2310,10 @@ do
 
 				local name = i.Names[1]
 
-				if settings.CD then
+     local crashDetect = settings.CD
+				if crashDetect then
 					cfg.write("cc", name)
+      while cfg.read("cc") ~= name and cfg.read("ub") == "1" and task.wait() do end -- because some executors don't yield writefile
 				end
 
 				if event then
@@ -2349,6 +2354,10 @@ do
 				if doTest then
 					if func then
 						local success, result, message, skid = pcall(v, func)
+
+        if crashDetect then
+         task.wait(0.4)
+        end
 
 						if success then
 							success = result ~= nil and result or result == nil
