@@ -2237,7 +2237,7 @@ do
 			MIFAS = false,
 			CCETCWRTT = false,
 			RSA = false,
-			CD = false
+			CD = true
 		}
 
 		local cfg = {
@@ -2688,7 +2688,7 @@ do
 		ui.SettingsHub:NewToggle("Roblox crash detector", function(state)
 			settings.CD = state
 			cfg.write("cd", state and "1" or "0")
-		end, cfg.read("cd") == "1")
+		end, cfg.read("cd") == "0")
 
 		ui.SettingsHub:Separator()
 		ui.SettingsHub:NewToggle("Show console", function(state)
