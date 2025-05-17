@@ -2271,8 +2271,8 @@ do
 		content = cfg.read("cc")
    content = content == "" and "0" or content
 		if content ~= "0" then
-			game:GetService("StarterGui"):SetCore("SendNotification", {Title = "CET", content .. " last time caused your Roblox to crash"})
-			game:GetService("StarterGui"):SetCore("SendNotification", {Title = "CET", "That function won't be tested in that run"})
+			game:GetService("StarterGui"):SetCore("SendNotification", {Title = "CET", Text = content .. " last time caused your Roblox to crash"})
+			game:GetService("StarterGui"):SetCore("SendNotification", {Title = "CET", Text = "That function won't be tested in that run"})
 
 			table.insert(ignoredFuncs, content)
 
